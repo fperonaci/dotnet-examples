@@ -4,14 +4,11 @@ namespace KafkaHelpers;
 
 public class ConsumerFactory<TKey, TValue>
 {
-    private string _bootstrapServers;
-    private string _groupId;
-    private AutoOffsetReset _offsetReset;
+    private readonly string _bootstrapServers;
+    private readonly string _groupId;
+    private readonly AutoOffsetReset _offsetReset;
 
-    public ConsumerFactory(
-        string bootstrapServers,
-        string groupId,
-        AutoOffsetReset offsetReset)
+    public ConsumerFactory(string bootstrapServers, string groupId, AutoOffsetReset offsetReset)
     {
         _bootstrapServers = bootstrapServers;
         _groupId = groupId;

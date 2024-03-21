@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "zSfK1aT3utIASOZmOv7GzpIbka6l6vj94WcNU0Hb0n4DCTbJCOWwSeqzd2JZ1yR/HvteHMkPIy2FzSMvq2BvzA==",
+  "success": true,
+  "projectFilePath": "/home/fp/Desktop/dotnet-examples/protobuf-1/App1/App1.csproj",
+  "expectedPackageFiles": [
+    "/home/fp/.nuget/packages/google.protobuf/3.26.0/google.protobuf.3.26.0.nupkg.sha512",
+    "/home/fp/.nuget/packages/grpc.tools/2.62.0/grpc.tools.2.62.0.nupkg.sha512"
+  ],
+  "logs": []
+}

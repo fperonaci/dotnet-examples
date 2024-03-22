@@ -1,9 +1,9 @@
 ﻿using Confluent.Kafka;
 using KafkaHelpers;
 
-var bootstrapServers = "localhost:9094";
+var server = "localhost:9094";
 
-var topicsManager = new TopicsManager(bootstrapServers);
+var topicsManager = new TopicsManager(server);
 var topics = topicsManager.GetTopicsNames();
 
 Console.WriteLine("Hello world!");
@@ -17,7 +17,7 @@ var numPartitions = 1;
 
 topicsManager.CreateTopicIfNotExists(topic, numPartitions);
 
-var producerFactory = new ProducerFactory<string, string>(bootstrapServers);
+var producerFactory = new ProducerFactory<string, string>(server);
 
 using var producer = producerFactory.Create();
 

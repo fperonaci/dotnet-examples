@@ -1,9 +1,9 @@
 ﻿using Confluent.Kafka;
 using KafkaHelpers;
 
-var bootstrapServers = "localhost:9094";
+var server = "localhost:9094";
 
-var topicsManager = new TopicsManager(bootstrapServers);
+var topicsManager = new TopicsManager(server);
 var topics = topicsManager.GetTopicsNames();
 var groupIds = topicsManager.GetConsumerGroupsIds();
 
@@ -19,7 +19,7 @@ var topic = Console.ReadLine() ?? throw new NullReferenceException("Cannot read 
 var groupId = Console.ReadLine() ?? throw new NullReferenceException("Cannot read group id");
 var offsetReset = AutoOffsetReset.Earliest;
 
-var consumerFactory = new ConsumerFactory<string, string>(bootstrapServers, groupId, offsetReset);
+var consumerFactory = new ConsumerFactory<string, string>(server, groupId, offsetReset);
 
 using (var consumer = consumerFactory.Create())
 {

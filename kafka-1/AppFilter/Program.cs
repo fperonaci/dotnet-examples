@@ -26,13 +26,15 @@ kstream.Filter((key, value) => value.Contains("ciao")).To(outputTopic);
 
 var topology = builder.Build();
 
-var config = new StreamConfig<StringSerDes, StringSerDes>()
+var config = new StreamConfig()
 {
-    ApplicationId = "test_app_id",
-    BootstrapServers = server,
-    AutoOffsetReset = Confluent.Kafka.AutoOffsetReset.Earliest,
     AllowAutoCreateTopics = true,
-    Guarantee = ProcessingGuarantee.EXACTLY_ONCE
+    ApplicationId = "test_app_id",
+    AutoOffsetReset = Confluent.Kafka.AutoOffsetReset.Earliest,
+    BootstrapServers = server,
+    DefaultKeySerDes = keySerdes,
+    DefaultValueSerDes = valueSerdes,
+    Guarantee = ProcessingGuarantee.EXACTLY_ONCE,
 };
 
 var stream = new KafkaStream(topology, config);

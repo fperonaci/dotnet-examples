@@ -1,23 +1,40 @@
-﻿var server = "localhost:9094";
+﻿using App;
+
+var server = "localhost:9094";
 
 if (args.Length == 0)
 {
-    var topics = new TopicsManager(server).GetTopicsNames();
-    Console.WriteLine($"Existing topics: {string.Join(", ", topics)}");
-    Console.WriteLine("Usage 1 : dotnet run -- produce <topic> <numPartitions>");
-    Console.WriteLine("Usage 2 : dotnet run -- consume <topic> <groupId>");
+    Console.WriteLine("Usage :");
+    Console.WriteLine("dotnet run --project App -- list_topic");
+    Console.WriteLine("dotnet run --project App -- create_topic <topic> <numPartitions>");
+    Console.WriteLine("dotnet run --project App -- delete_topic <topic>");
+    Console.WriteLine("dotnet run --project App -- produce <topic>");
+    Console.WriteLine("dotnet run --project App -- consume <topic> [<groupId>]");
     return;
 }
 
-var action = args[0];
-var topic = args[1];
-
-if (action == "produce")
+switch (args[0])
 {
-    Helper<string, int>.Produce(server, topic, args.Length > 2 ? int.Parse(args[2]) : 1);
-}
+    case "list_topic":
+        var topics = THelper.GetTopicsNames(server);
+        var partitions = THelper.GetNumberOfPartitions(server);
+        Console.WriteLine($"Existing topics: {string.Join(", ", topics)}");
+        Console.WriteLine($"Partitions: {string.Join(", ", partitions)}");
+        break;
 
-if (action == "consume")
-{
-    Helper<string, int>.Consume(server, topic, args.Length > 2 ? args[2] : null);
+    case "crate_topic":
+        THelper.CreateTopicIfNotExists(server, args[1], int.Parse(args[2]));
+        break;
+
+    case "delete_topic":
+        THelper.DeleteTopicIfExists(server, args[1]);
+        break;
+
+    case "produce":
+        PHelper<string, int>.Produce(server, args[1]);
+        break;
+
+    case "consumer":
+        CHelper<string, int>.Consume(server, args[1], args.Length > 2 ? args[2] : Guid.NewGuid().ToString());
+        break;
 }

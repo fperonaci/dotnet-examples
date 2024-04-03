@@ -1,16 +1,18 @@
 ﻿
 using Confluent.Kafka;
 
-public static partial class Helper<TKey, TValue>
+namespace App;
+
+public static class PHelper<TKey, TValue>
 {
-    public static void Produce(string server, string topic, int numPartitions)
+    public static void Produce(string server, string topic)
     {
         var config = new ProducerConfig()
         {
             BootstrapServers = server,
         };
 
-        var producer = new ProducerBuilder<TKey?, TValue?>(config).Build();
+        using var producer = new ProducerBuilder<TKey?, TValue?>(config).Build();
 
         Console.WriteLine($"Producing messages..");
 
@@ -33,4 +35,3 @@ public static partial class Helper<TKey, TValue>
         }
     }
 }
-

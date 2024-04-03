@@ -1,6 +1,8 @@
 using Confluent.Kafka;
 
-public static partial class Helper<TKey, TValue>
+namespace App;
+
+public static class CHelper<TKey, TValue>
 {
     public static void Consume(string server, string topic, string groupId, AutoOffsetReset offsetReset)
     {
@@ -33,9 +35,6 @@ public static partial class Helper<TKey, TValue>
         }
     }
 
-    public static void Consume(string server, string topic) =>
-        Consume(server, topic, Guid.NewGuid().ToString(), AutoOffsetReset.Earliest);
-
-    public static void Consume(string server, string topic, string? groupId) =>
-        Consume(server, topic, groupId ?? Guid.NewGuid().ToString(), AutoOffsetReset.Earliest);
+    public static void Consume(string server, string topic, string groupId) =>
+        Consume(server, topic, groupId, AutoOffsetReset.Earliest);
 }

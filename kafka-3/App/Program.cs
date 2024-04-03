@@ -15,7 +15,7 @@ if (args.Length != 0)
             return;
 
         case "create-topic":
-            THelper.CreateTopicIfNotExists(server, args[1], int.Parse(args[2]));
+            THelper.CreateTopicIfNotExists(server, args[1], args.Length > 2 ? int.Parse(args[2]) : 1);
             return;
 
         case "delete-topic":

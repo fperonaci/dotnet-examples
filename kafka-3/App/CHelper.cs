@@ -22,6 +22,7 @@ public static class CHelper<TKey, TValue>
 
         Console.CancelKeyPress += delegate
         {
+            Console.WriteLine();
             Console.WriteLine("I'm being shut down, good bye!");
         };
 

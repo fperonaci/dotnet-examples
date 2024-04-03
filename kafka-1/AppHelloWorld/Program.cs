@@ -12,7 +12,7 @@ var topicsManager = new TopicsManager(bootstrapServers);
 
 Console.WriteLine("Hello world!");
 
-await topicsManager.CreateTopicIfNotExists(topicName, numPartitions);
+topicsManager.CreateTopicIfNotExists(topicName, numPartitions);
 
 var producerFactory = new ProducerFactory<string, string>(bootstrapServers);
 

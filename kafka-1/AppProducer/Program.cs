@@ -15,7 +15,7 @@ Console.WriteLine("Enter the output topic (will create if not exists)");
 var topic = Console.ReadLine() ?? throw new NullReferenceException("Cannot read topic name");
 var numPartitions = 1;
 
-await topicsManager.CreateTopicIfNotExists(topic, numPartitions);
+topicsManager.CreateTopicIfNotExists(topic, numPartitions);
 
 var producerFactory = new ProducerFactory<string, string>(bootstrapServers);
 

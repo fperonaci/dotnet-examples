@@ -5,7 +5,7 @@ namespace KafkaHelpers;
 
 public class TopicsManager
 {
-    private readonly AdminClientBuilder _clientBuilder;
+    private readonly AdminClientBuilder _builder;
 
     public TopicsManager(string bootstrapServers)
     {
@@ -14,52 +14,44 @@ public class TopicsManager
             BootstrapServers = bootstrapServers
         };
 
-        _clientBuilder = new AdminClientBuilder(config);
+        _builder = new AdminClientBuilder(config);
     }
 
     public IEnumerable<string> GetConsumerGroupsIds()
     {
-        using var client = _clientBuilder.Build();
+        using var client = _builder.Build();
 
         return client.ListConsumerGroupsAsync().Result.Valid.Select(x => x.GroupId);
     }
 
     public IEnumerable<string> GetTopicsNames()
     {
-        using var client = _clientBuilder.Build();
+        using var client = _builder.Build();
 
         return client.GetMetadata(TimeSpan.FromSeconds(60)).Topics.Select(x => x.Topic);
     }
 
-    public async Task CreateTopicIfNotExists(string name, int numPartitions)
+    public void CreateTopicIfNotExists(string name, int numPartitions)
     {
         if (GetTopicsNames().Contains(name))
         {
             return;
         }
 
-        using var client = _clientBuilder.Build();
+        using var client = _builder.Build();
 
-        var topicSpecifications = new TopicSpecification[]{
-            new TopicSpecification()
-            {
-                Name = name,
-                NumPartitions = numPartitions
-            }
-        };
-
-        await client.CreateTopicsAsync(topicSpecifications);
+        client.CreateTopicsAsync([new() { Name = name, NumPartitions = numPartitions }]).Wait();
     }
 
-    public async Task DeleteTopicIfExists(string name)
+    public void DeleteTopicIfExists(string name)
     {
         if (!GetTopicsNames().Contains(name))
         {
             return;
         }
 
-        using var client = _clientBuilder.Build();
+        using var client = _builder.Build();
 
-        await client.DeleteTopicsAsync([name]);
+        client.DeleteTopicsAsync([name]).Wait();
     }
 }

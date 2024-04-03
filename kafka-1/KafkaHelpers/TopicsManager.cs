@@ -17,6 +17,13 @@ public class TopicsManager
         _clientBuilder = new AdminClientBuilder(config);
     }
 
+    public IEnumerable<string> GetConsumerGroupsIds()
+    {
+        using var client = _clientBuilder.Build();
+
+        return client.ListConsumerGroupsAsync().Result.Valid.Select(x => x.GroupId);
+    }
+
     public IEnumerable<string> GetTopicsNames()
     {
         using var client = _clientBuilder.Build();
@@ -42,5 +49,17 @@ public class TopicsManager
         };
 
         await client.CreateTopicsAsync(topicSpecifications);
+    }
+
+    public async Task DeleteTopicIfExists(string name)
+    {
+        if (!GetTopicsNames().Contains(name))
+        {
+            return;
+        }
+
+        using var client = _clientBuilder.Build();
+
+        await client.DeleteTopicsAsync([name]);
     }
 }

@@ -2,9 +2,9 @@
 using Streamiz.Kafka.Net;
 using Streamiz.Kafka.Net.SerDes;
 
-var bootstrapServers = "localhost:9094";
+var server = "localhost:9094";
 
-var topicsManager = new TopicsManager(bootstrapServers);
+var topicsManager = new TopicsManager(server);
 var topics = topicsManager.GetTopicsNames();
 
 Console.WriteLine("Hello world!");
@@ -29,7 +29,7 @@ var topology = builder.Build();
 var config = new StreamConfig<StringSerDes, StringSerDes>()
 {
     ApplicationId = "test_app_id",
-    BootstrapServers = bootstrapServers,
+    BootstrapServers = server,
     AutoOffsetReset = Confluent.Kafka.AutoOffsetReset.Earliest,
     AllowAutoCreateTopics = true,
     Guarantee = ProcessingGuarantee.EXACTLY_ONCE

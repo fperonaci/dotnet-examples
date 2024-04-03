@@ -1,38 +1,36 @@
 ﻿using Confluent.Kafka;
 using KafkaHelpers;
 
-var bootstrapServers = "localhost:9094";
-var topicName = "test_topic";
-var numPartitions = 1;
+var server = "localhost:9094";
+var topic = "test-topic";
+var group = "test-grous";
 
-var groupId = "test_group_id";
-var offsetReset = AutoOffsetReset.Earliest;
+var action = args.Length > 0 ? args[0] : null;
 
-var topicsManager = new TopicsManager(bootstrapServers);
-
-Console.WriteLine("Hello world!");
-
-topicsManager.CreateTopicIfNotExists(topicName, numPartitions);
-
-var producerFactory = new ProducerFactory<string, string>(bootstrapServers);
-
-using (var producer = producerFactory.Create())
+if (action is null)
 {
+    Console.WriteLine("Specify produce or consume");
+    return;
+}
+
+if (action == "produce")
+{
+    using var producer = new ProducerFactory<string, string>(server).Create();
     var message = new Message<string, string>()
     {
         Key = "test_key",
         Value = "test_value"
     };
-    producer.Produce(topicName, message);
+    producer.Produce(topic, message);
 
     producer.Flush();
 }
 
-var consumerFactory = new ConsumerFactory<string, string>(bootstrapServers, groupId, offsetReset);
-
-using (var consumer = consumerFactory.Create())
+if (action == "consume")
 {
-    consumer.Subscribe(topicName);
+    using var consumer = new ConsumerFactory<string, string>(
+        server, group, AutoOffsetReset.Earliest).Create();
+    consumer.Subscribe(topic);
 
     while (true)
     {

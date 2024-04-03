@@ -17,6 +17,7 @@ public static class CHelper<TKey, TValue>
 
         consumer.Subscribe(topic);
 
+        Console.WriteLine();
         Console.WriteLine($"Consuming messages with group id {groupId}..");
 
         Console.CancelKeyPress += delegate

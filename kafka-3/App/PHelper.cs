@@ -14,10 +14,12 @@ public static class PHelper<TKey, TValue>
 
         using var producer = new ProducerBuilder<TKey?, TValue?>(config).Build();
 
+        Console.WriteLine();
         Console.WriteLine($"Producing messages..");
 
         Console.CancelKeyPress += delegate
         {
+            Console.WriteLine();
             Console.WriteLine("I'm being shut down, good bye!");
         };
 

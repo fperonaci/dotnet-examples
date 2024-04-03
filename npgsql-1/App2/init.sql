@@ -1,0 +1,5 @@
+-- drop database if exists testdb;
+-- create database test_db;
+-- create schema private;
+-- create type mood as enum ('happy', 'sad');
+-- create table private.people (age integer, name varchar(10), cmood mood);

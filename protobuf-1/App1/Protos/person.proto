@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+message Person {
+  string name = 1;
+  int32 age = 2;
+  Vehicles vehicles = 3;
+  Nationality nationality = 4;
+}
+
+message Vehicles {
+  repeated string cars = 1;
+  repeated string bikes = 2;
+}
+
+enum Nationality {
+  ITALIAN = 0;
+  ENGLISH = 1;
+  FRENCH = 2;
+}

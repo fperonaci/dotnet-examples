@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppConsumer", "AppConsumer\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppProducer", "AppProducer\AppProducer.csproj", "{7AA061AC-1066-4B1A-87E8-3DCBAE7CE182}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppFilter", "AppFilter\AppFilter.csproj", "{8DB8595C-6244-4444-950F-A54033AB8404}"
+EndProject
 Global
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -72,5 +74,17 @@ Global
 		{7AA061AC-1066-4B1A-87E8-3DCBAE7CE182}.Release|x64.Build.0 = Release|Any CPU
 		{7AA061AC-1066-4B1A-87E8-3DCBAE7CE182}.Release|x86.ActiveCfg = Release|Any CPU
 		{7AA061AC-1066-4B1A-87E8-3DCBAE7CE182}.Release|x86.Build.0 = Release|Any CPU
+		{8DB8595C-6244-4444-950F-A54033AB8404}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8DB8595C-6244-4444-950F-A54033AB8404}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8DB8595C-6244-4444-950F-A54033AB8404}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{8DB8595C-6244-4444-950F-A54033AB8404}.Debug|x64.Build.0 = Debug|Any CPU
+		{8DB8595C-6244-4444-950F-A54033AB8404}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{8DB8595C-6244-4444-950F-A54033AB8404}.Debug|x86.Build.0 = Debug|Any CPU
+		{8DB8595C-6244-4444-950F-A54033AB8404}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8DB8595C-6244-4444-950F-A54033AB8404}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8DB8595C-6244-4444-950F-A54033AB8404}.Release|x64.ActiveCfg = Release|Any CPU
+		{8DB8595C-6244-4444-950F-A54033AB8404}.Release|x64.Build.0 = Release|Any CPU
+		{8DB8595C-6244-4444-950F-A54033AB8404}.Release|x86.ActiveCfg = Release|Any CPU
+		{8DB8595C-6244-4444-950F-A54033AB8404}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

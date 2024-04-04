@@ -8,8 +8,8 @@ using Streamiz.Kafka.Net.Stream;
 
 var builder = new StreamBuilder();
 
-var kstream1 = builder.Stream<string, int>(args[0]);
-var kstream2 = builder.Stream<string, int>(args[1]);
+var kstream1 = builder.Stream<string, string>(args[0]);
+var kstream2 = builder.Stream<string, string>(args[1]);
 
 kstream1.Join(
     kstream2,

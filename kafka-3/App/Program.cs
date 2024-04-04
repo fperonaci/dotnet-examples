@@ -8,14 +8,13 @@ if (args.Length != 0)
     {
         case "list-topics":
             Console.WriteLine($"Existing topics (<name>, <numPartitions>):");
-            foreach (var x in THelper.GetTopicsNamesAndNumberOfPartitions(server))
-            {
-                Console.WriteLine(x);
-            }
+            THelper.GetTopicsNamesAndNumberOfPartitions(server)
+            .ToList().ForEach(x => Console.WriteLine(x));
             return;
 
         case "create-topic":
-            THelper.CreateTopicIfNotExists(server, args[1], args.Length > 2 ? int.Parse(args[2]) : 1);
+            var numPartitions = args.Length > 2 ? int.Parse(args[2]) : 1;
+            THelper.CreateTopicIfNotExists(server, args[1], numPartitions);
             return;
 
         case "delete-topic":
@@ -23,11 +22,12 @@ if (args.Length != 0)
             return;
 
         case "produce":
-            PHelper<string, int>.Produce(server, args[1]);
+            PHelper<string, string>.Produce(server, args[1]);
             return;
 
         case "consume":
-            CHelper<string, int>.Consume(server, args[1], args.Length > 2 ? args[2] : Guid.NewGuid().ToString());
+            var groupId = args.Length > 2 ? args[2] : Guid.NewGuid().ToString();
+            CHelper<string, string>.Consume(server, args[1], groupId);
             return;
     }
 }

@@ -21,6 +21,11 @@ if (args.Length != 0)
             THelper.DeleteTopicIfExists(server, args[1]);
             return;
 
+        case "delete-all-topics":
+            foreach (var topic in THelper.GetTopicsNames(server))
+                THelper.DeleteTopicIfExists(server, topic);
+            return;
+
         case "produce":
             PHelper<string, string>.Produce(server, args[1]);
             return;
@@ -36,5 +41,6 @@ Console.WriteLine("Usage:");
 Console.WriteLine("dotnet run --project App -- list-topics");
 Console.WriteLine("dotnet run --project App -- create-topic <topic> <numPartitions>");
 Console.WriteLine("dotnet run --project App -- delete-topic <topic>");
+Console.WriteLine("dotnet run --project App -- delete-all-topics");
 Console.WriteLine("dotnet run --project App -- produce <topic>");
 Console.WriteLine("dotnet run --project App -- consume <topic> [<groupId>]");

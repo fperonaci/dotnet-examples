@@ -33,7 +33,7 @@ public static class CHelper<TKey, TValue>
             var value = result.Message.Value;
             var partition = result.Partition;
             var timestamp = result.Message.Timestamp;
-            Console.WriteLine($"{key} {value} {partition} {timestamp.UtcDateTime:HH:mm:ss}");
+            Console.WriteLine($"{key} {value} {partition} {timestamp.UtcDateTime.ToLocalTime():HH:mm:ss}");
         }
     }
 

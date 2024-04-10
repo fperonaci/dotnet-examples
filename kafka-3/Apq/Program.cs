@@ -4,7 +4,6 @@ using Confluent.Kafka;
 using Streamiz.Kafka.Net;
 using Streamiz.Kafka.Net.SerDes;
 using Streamiz.Kafka.Net.Stream;
-using Streamiz.Kafka.Net.State;
 
 var topic1 = args[0];
 var topic2 = args[1];
@@ -15,21 +14,26 @@ var appId = args.Length > 4 ? args[4] : Guid.NewGuid().ToString();
 
 var builder = new StreamBuilder();
 
-var stream1 = builder.Stream<string, string>(topic1);
-var stream2 = builder.Stream<string, string>(topic2);
+var stringSerDes = new StringSerDes();
 
-var table1 = stream2.ToTable();
+var stream1 = builder.Stream(topic1, stringSerDes, stringSerDes);
 
-stream1.Join(
-    table1,
-    (v1, v2) => $"From inner table join {v1 + v2}")
-    .To(topic3);
+// var stream2 = builder.Stream(topic2, stringSerDes, stringSerDes);
 
-stream1.Join(
-    stream2,
-    (v1, v2) => $"From inner stream join {v1 + v2}",
-    JoinWindowOptions.Of(TimeSpan.FromSeconds(30)))
-    .To(topic4);
+// stream1.Map((k,v) => KeyValuePair.Create(k.ToUpper(), v)).To(topic2);
+
+// var table1 = stream2.ToTable();
+
+// stream1.Join(
+//     table1,
+//     (v1, v2) => $"From inner table join {v1 + v2}")
+//     .To(topic3);
+
+// stream1.Join(
+//     stream2,
+//     (v1, v2) => $"From inner stream join {v1 + v2}",
+//     JoinWindowOptions.Of(TimeSpan.FromSeconds(30)))
+//     .To(topic4);
 
 // stream1.Join(
 //     stream2,
@@ -49,19 +53,21 @@ stream1.Join(
 //     JoinWindowOptions.Of(TimeSpan.FromMinutes(1)))
 //     .To(topic3);
 
-
 // var stream2 = stream1.GroupByKey();
+
+//var stream2 = stream1.GroupBy((k, v) => k[..1] + v[..1]);
 
 // var stream3 = stream2.WindowedBy(TumblingWindowOptions.Of(TimeSpan.FromSeconds(10)));
 
-// var stream4 = stream3.Count().ToStream().Peek((k, v) => Console.WriteLine(k + " " + v.ToString()));
+// var stream4 = stream2.Count().ToStream(); //.Peek((k, v) => Console.WriteLine(k + " " + v.ToString()));
 
 // var serdes = new TimeWindowedSerDes<string>(new StringSerDes(), 10 * 1000);
 
-// stream4.MapValues((k, v) => v.ToString()).To(topic3, keySerdes: serdes, valueSerdes: new StringSerDes());
-// stream4.To("topic4", keySerdes: serdes, valueSerdes: new Int64SerDes());
+// stream4.MapValues((k, v) => v.ToString()).To(topic2);
 
+//stream2.Reduce((v1, v2) => v1 + v2).ToStream().To(topic2);
 
+//stream2.Aggregate(() => "INIZIO", (k, v, vr) => vr + k + v).ToStream().To(topic3);
 
 var config = new StreamConfig()
 {
@@ -70,8 +76,8 @@ var config = new StreamConfig()
     AutoOffsetReset = AutoOffsetReset.Earliest,
     AllowAutoCreateTopics = true,
     Guarantee = ProcessingGuarantee.EXACTLY_ONCE,
-    DefaultKeySerDes = new StringSerDes(),
-    DefaultValueSerDes = new StringSerDes()
+    DefaultKeySerDes = stringSerDes,
+    DefaultValueSerDes = stringSerDes
 };
 
 var stream = new KafkaStream(builder.Build(), config);
